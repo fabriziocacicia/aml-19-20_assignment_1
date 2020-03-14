@@ -5,17 +5,25 @@ import matplotlib.pyplot as plt
 from scipy.signal import convolve2d as conv2
 
 
-
-"""
-Gaussian function taking as argument the standard deviation sigma
-The filter should be defined for all integer values x in the range [-3sigma,3sigma]
-The function should return the Gaussian values Gx computed at the indexes x
-"""
 def gauss(sigma):
+    """
+    Gaussian function taking as argument the standard deviation sigma
+    The filter should be defined for all integer values x in the range [-3sigma,3sigma]
+    The function should return the Gaussian values Gx computed at the indexes x
+    :param sigma: the variance of the Gaussian
+    :return: gx: the values of the Gaussian, x: the values where the Gaussian is defined
+    """
+    sigma = round(sigma)
+
+    x = np.arange(-3 * sigma, 3 * sigma + 1, 1)
+
+    x_sq = np.square(x)
+    sigma_sq = np.square(sigma)
+    exp = np.exp(-x_sq / (2 * sigma_sq))
     
-    #...
+    gx = (1 / (np.sqrt(2 * np.pi) * sigma)) * exp
     
-    return Gx, x
+    return gx, x
 
 
 
