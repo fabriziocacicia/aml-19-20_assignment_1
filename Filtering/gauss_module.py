@@ -5,13 +5,13 @@ import matplotlib.pyplot as plt
 from scipy.signal import convolve2d as conv2
 
 
-def gauss(sigma):
+def gauss(sigma: float):
     """
     Gaussian function taking as argument the standard deviation sigma
     The filter should be defined for all integer values x in the range [-3sigma,3sigma]
     The function should return the Gaussian values Gx computed at the indexes x
     :param sigma: the variance of the Gaussian
-    :return: gx: the values of the Gaussian, x: the values where the Gaussian is defined
+    :return: [gx: the values of the Gaussian, x: the values where the Gaussian is defined]
     """
     sigma = round(sigma)
 
