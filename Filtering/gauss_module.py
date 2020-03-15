@@ -50,17 +50,21 @@ def gaussianfilter(img, sigma: float):
     return smooth_img
 
 
+def gaussdx(sigma: float):
+    """
+    Gaussian derivative function taking as argument the standard deviation sigma
+    The filter should be defined for all integer values x in the range [-3sigma,3sigma]
+    The function should return the Gaussian derivative values Dx computed at the indexes x
+    :param sigma: The standard deviation of the gaussian
+    :return: dx: the values of the derivative of the Gaussian, x: the values where the Gaussian is defined
+    """
 
-"""
-Gaussian derivative function taking as argument the standard deviation sigma
-The filter should be defined for all integer values x in the range [-3sigma,3sigma]
-The function should return the Gaussian derivative values Dx computed at the indexes x
-"""
-def gaussdx(sigma):
+    gx, x = gauss(sigma)
 
-    #...
-    
-    return Dx, x
+    sigma_sq = np.square(sigma)
+    dx = -gx*x/sigma_sq
+
+    return dx, x
 
 
 
