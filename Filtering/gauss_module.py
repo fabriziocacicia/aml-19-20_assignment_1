@@ -20,23 +20,32 @@ def gauss(sigma):
     x_sq = np.square(x)
     sigma_sq = np.square(sigma)
     exp = np.exp(-x_sq / (2 * sigma_sq))
-    
+
     gx = (1 / (np.sqrt(2 * np.pi) * sigma)) * exp
     
     return gx, x
 
 
-
-"""
-Implement a 2D Gaussian filter, leveraging the previous gauss.
-Implement the filter from scratch or leverage the convolve2D method (scipy.signal)
-Leverage the separability of Gaussian filtering
-Input: image, sigma (standard deviation)
-Output: smoothed image
-"""
-def gaussianfilter(img, sigma):
-    
+def gaussianfilter(img, sigma: float):
+    """
+    Implement a 2D Gaussian filter, leveraging the previous gauss.
+    Implement the filter from scratch or leverage the convolve2D method (scipy.signal)
+    Leverage the separability of Gaussian filtering
+    :param sigma:
+    :param img: (standard deviation)
+    :return: smooth_img: the smoothed image
+    """
     #...
+    gx, x = gauss(sigma)
+
+    horizontal_kernel = np.reshape(gx, (1, x.size))
+    vertical_kernel = np.reshape(gx, (x.size, 1))
+
+    h_conv = conv2(img, horizontal_kernel, mode='same', boundary='fill')
+
+    v_conv = conv2(h_conv, vertical_kernel, mode='same', boundary='fill')
+
+    smooth_img = v_conv
 
     return smooth_img
 
