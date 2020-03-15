@@ -31,8 +31,8 @@ def gaussianfilter(img, sigma: float):
     Implement a 2D Gaussian filter, leveraging the previous gauss.
     Implement the filter from scratch or leverage the convolve2D method (scipy.signal)
     Leverage the separability of Gaussian filtering
-    :param sigma:
-    :param img: (standard deviation)
+    :param sigma: The standard deviation of the gaussian
+    :param img:
     :return: smooth_img: the smoothed image
     """
     #...
