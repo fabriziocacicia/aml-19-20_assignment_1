@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image
 from scipy.signal import convolve2d as conv2
 
-from . import gauss_module
+import gauss_module
 
 
 def rgb2gray(rgb):

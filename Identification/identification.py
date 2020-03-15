@@ -3,10 +3,10 @@ import numpy as np
 from PIL import Image
 from numpy import histogram as hist  # call hist, otherwise np.histogram
 
-from . import dist_module
-from . import histogram_module
-from . import match_module
-from . import rpc_module
+import dist_module
+import histogram_module
+import match_module
+import rpc_module
 
 
 def rgb2gray(rgb):
