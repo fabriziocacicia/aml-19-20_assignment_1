@@ -67,10 +67,16 @@ def gaussdx(sigma: float):
     return dx, x
 
 
+def gaussderiv(img, sigma: float):
 
-def gaussderiv(img, sigma):
+    dx, x = gaussdx(sigma)
 
-    #...
+    horizontal_kernel = np.reshape(dx, (1, x.size))
+    vertical_kernel = np.reshape(dx, (x.size, 1))
+
+    imgDx = conv2(img, horizontal_kernel, mode='same', boundary='fill')
+
+    imgDy = conv2(img, vertical_kernel, mode='same', boundary='fill')
     
     return imgDx, imgDy
 
