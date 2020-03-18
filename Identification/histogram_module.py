@@ -20,7 +20,18 @@ def normalized_hist(img_gray, num_bins):
     assert len(img_gray.shape) == 2, 'image dimension mismatch'
     assert img_gray.dtype == 'float', 'incorrect image type'
 
-    # ... (your code here)
+    step = 255/num_bins
+
+    img = img_gray/step
+    img = img.astype(int)
+    flattened = img.flatten()
+
+    hists = np.bincount(flattened, None, num_bins)
+
+    # Normalization
+    hists = np.divide(hists, flattened.size)
+
+    bins = np.arange(0, 256, step)
 
     return hists, bins
 
