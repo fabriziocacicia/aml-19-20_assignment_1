@@ -22,6 +22,7 @@ def normalized_hist(img_gray, num_bins):
 
     step = 255/num_bins
 
+    # Normalize the intensity of the pixel to the scale of the hist's bin
     img = img_gray/step
 
     flattened = img.flatten()
