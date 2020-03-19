@@ -52,7 +52,16 @@ def rgb_hist(img_color_double, num_bins):
     assert len(img_color_double.shape) == 3, 'image dimension mismatch'
     assert img_color_double.dtype == 'float', 'incorrect image type'
 
-    # ... (your code here)
+    step = 255 / num_bins
+
+    # Flatten the input image preserving the color triplets
+    flattened = np.reshape(img_color_double, (img_color_double.shape[0] * img_color_double.shape[1], img_color_double.shape[2]))
+
+    # Normalize the color values to match the bins scale
+    flattened /= step
+
+    # Round the values of the color to easily increment the histogram bins
+    flattened = flattened.astype(int)
 
     # Define a 3D histogram  with "num_bins^3" number of entries
     hists = np.zeros((num_bins, num_bins, num_bins))
@@ -60,12 +69,17 @@ def rgb_hist(img_color_double, num_bins):
     # Loop for each pixel i in the image 
     for i in range(img_color_double.shape[0] * img_color_double.shape[1]):
         # Increment the histogram bin which corresponds to the R,G,B value of the pixel i
+        pixel = flattened[i]
 
-        # ... (your code here)
+        r = pixel[0]
+        g = pixel[1]
+        b = pixel[2]
+
+        hists[r, g, b] += 1
         pass
 
     # Normalize the histogram such that its integral (sum) is equal 1
-    # ... (your code here)
+    hists = np.divide(hists, flattened.shape[0])
 
     # Return the histogram as a 1D vector
     hists = hists.reshape(hists.size)
@@ -86,12 +100,34 @@ def rg_hist(img_color_double, num_bins):
     assert len(img_color_double.shape) == 3, 'image dimension mismatch'
     assert img_color_double.dtype == 'float', 'incorrect image type'
 
-    # ... (your code here)
+    step = 255 / num_bins
+
+    # Flatten the input image preserving the color triplets
+    flattened = np.reshape(img_color_double,
+                           (img_color_double.shape[0] * img_color_double.shape[1], img_color_double.shape[2]))
+
+    # Normalize the color values to match the bins scale
+    flattened /= step
+
+    # Round the values of the color to easily increment the histogram bins
+    flattened = flattened.astype(int)
 
     # Define a 2D histogram  with "num_bins^2" number of entries
     hists = np.zeros((num_bins, num_bins))
 
-    # ... (your code here)
+    # Loop for each pixel i in the image
+    for i in range(img_color_double.shape[0] * img_color_double.shape[1]):
+        # Increment the histogram bin which corresponds to the R,G,B value of the pixel i
+        pixel = flattened[i]
+
+        r = pixel[0]
+        g = pixel[1]
+
+        hists[r, g] += 1
+        pass
+
+    # Normalize the histogram such that its integral (sum) is equal 1
+    hists = np.divide(hists, flattened.shape[0])
 
     # Return the histogram as a 1D vector
     hists = hists.reshape(hists.size)
