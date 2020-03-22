@@ -151,7 +151,6 @@ def dxdy_hist(img_gray, num_bins):
 
     img_dx, img_dy = gaussderiv(img_gray, 3.0)
 
-    # chiedere se clip va bene
     img_dx = img_dx.clip(-6.0, 6.0)
     img_dy = img_dy.clip(-6.0, 6.0)
 
