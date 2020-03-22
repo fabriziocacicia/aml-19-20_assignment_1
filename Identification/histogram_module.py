@@ -5,6 +5,8 @@ import sys
 
 import numpy as np
 
+from gauss_module import gaussderiv
+
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 filteringpath = os.path.join(parentdir, 'Filtering')
@@ -147,12 +149,39 @@ def dxdy_hist(img_gray, num_bins):
     assert len(img_gray.shape) == 2, 'image dimension mismatch'
     assert img_gray.dtype == 'float', 'incorrect image type'
 
-    # ... (your code here)
+    img_dx, img_dy = gaussderiv(img_gray, 3.0)
+
+    # chiedere se clip va bene
+    img_dx = img_dx.clip(-6.0, 6.0)
+    img_dy = img_dy.clip(-6.0, 6.0)
+
+    step = 12 / num_bins
+
+    flattened_x = img_dx.flatten()
+    flattened_y = img_dy.flatten()
+
+    flattened_x /= step
+    flattened_y /= step
+
+    flattened_x = flattened_x.astype(int)
+    flattened_y = flattened_y.astype(int)
+
+    flattened_x += num_bins//2 - 1
+    flattened_y += num_bins//2 - 1
 
     # Define a 2D histogram  with "num_bins^2" number of entries
     hists = np.zeros((num_bins, num_bins))
 
-    # ... (your code here)
+    # Loop for each pixel i in the image
+    for i in range(img_gray.shape[0] * img_gray.shape[1]):
+        # Increment the histogram bin which corresponds to the R,G,B value of the pixel i
+        pixel = (flattened_x[i], flattened_y[i])
+
+        hists[pixel[0], pixel[1]] += 1
+        pass
+
+        # Normalize the histogram such that its integral (sum) is equal 1
+    hists = np.divide(hists, img_gray.size)
 
     # Return the histogram as a 1D vector
     hists = hists.reshape(hists.size)
