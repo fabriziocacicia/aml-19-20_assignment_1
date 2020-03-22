@@ -22,10 +22,12 @@ def normalized_hist(img_gray, num_bins):
     assert len(img_gray.shape) == 2, 'image dimension mismatch'
     assert img_gray.dtype == 'float', 'incorrect image type'
 
+    img = np.copy(img_gray)
+
     step = 255/num_bins
 
     # Normalize the intensity of the pixel to the scale of the hist's bin
-    img = img_gray/step
+    img = img/step
 
     flattened = img.flatten()
 
@@ -54,10 +56,12 @@ def rgb_hist(img_color_double, num_bins):
     assert len(img_color_double.shape) == 3, 'image dimension mismatch'
     assert img_color_double.dtype == 'float', 'incorrect image type'
 
+    img = np.copy(img_color_double)
+
     step = 255 / num_bins
 
     # Flatten the input image preserving the color triplets
-    flattened = np.reshape(img_color_double, (img_color_double.shape[0] * img_color_double.shape[1], img_color_double.shape[2]))
+    flattened = np.reshape(img, (img.shape[0] * img.shape[1], img.shape[2]))
 
     # Normalize the color values to match the bins scale
     flattened /= step
@@ -69,7 +73,7 @@ def rgb_hist(img_color_double, num_bins):
     hists = np.zeros((num_bins, num_bins, num_bins))
 
     # Loop for each pixel i in the image 
-    for i in range(img_color_double.shape[0] * img_color_double.shape[1]):
+    for i in range(img.shape[0] * img.shape[1]):
         # Increment the histogram bin which corresponds to the R,G,B value of the pixel i
         pixel = flattened[i]
 
@@ -102,11 +106,12 @@ def rg_hist(img_color_double, num_bins):
     assert len(img_color_double.shape) == 3, 'image dimension mismatch'
     assert img_color_double.dtype == 'float', 'incorrect image type'
 
+    img = np.copy(img_color_double)
+
     step = 255 / num_bins
 
     # Flatten the input image preserving the color triplets
-    flattened = np.reshape(img_color_double,
-                           (img_color_double.shape[0] * img_color_double.shape[1], img_color_double.shape[2]))
+    flattened = np.reshape(img, (img.shape[0] * img.shape[1], img.shape[2]))
 
     # Normalize the color values to match the bins scale
     flattened /= step
@@ -118,7 +123,7 @@ def rg_hist(img_color_double, num_bins):
     hists = np.zeros((num_bins, num_bins))
 
     # Loop for each pixel i in the image
-    for i in range(img_color_double.shape[0] * img_color_double.shape[1]):
+    for i in range(img.shape[0] * img.shape[1]):
         # Increment the histogram bin which corresponds to the R,G,B value of the pixel i
         pixel = flattened[i]
 
@@ -149,9 +154,10 @@ def dxdy_hist(img_gray, num_bins):
     assert len(img_gray.shape) == 2, 'image dimension mismatch'
     assert img_gray.dtype == 'float', 'incorrect image type'
 
-    img_dx, img_dy = gaussderiv(img_gray, 3.0)
+    img = np.copy(img_gray)
 
-    # chiedere se clip va bene
+    img_dx, img_dy = gaussderiv(img, 3.0)
+
     img_dx = img_dx.clip(-6.0, 6.0)
     img_dy = img_dy.clip(-6.0, 6.0)
 
@@ -173,7 +179,7 @@ def dxdy_hist(img_gray, num_bins):
     hists = np.zeros((num_bins, num_bins))
 
     # Loop for each pixel i in the image
-    for i in range(img_gray.shape[0] * img_gray.shape[1]):
+    for i in range(img.shape[0] * img.shape[1]):
         # Increment the histogram bin which corresponds to the R,G,B value of the pixel i
         pixel = (flattened_x[i], flattened_y[i])
 
@@ -181,7 +187,7 @@ def dxdy_hist(img_gray, num_bins):
         pass
 
         # Normalize the histogram such that its integral (sum) is equal 1
-    hists = np.divide(hists, img_gray.size)
+    hists = np.divide(hists, img.size)
 
     # Return the histogram as a 1D vector
     hists = hists.reshape(hists.size)
