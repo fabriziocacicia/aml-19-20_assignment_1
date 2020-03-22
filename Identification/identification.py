@@ -76,14 +76,14 @@ image_files1 = ['./model/obj1__0.png']
 image_files2 = ['./model/obj91__0.png', './model/obj94__0.png']
 
 plt.figure()
-plt.subplot(1, 3, 1);
-plt.imshow(np.array(Image.open(image_files1[0])), vmin=0, vmax=255);
+plt.subplot(1, 3, 1)
+plt.imshow(np.array(Image.open(image_files1[0])), vmin=0, vmax=255)
 plt.title(image_files1[0])
-plt.subplot(1, 3, 2);
-plt.imshow(np.array(Image.open(image_files2[0])), vmin=0, vmax=255);
+plt.subplot(1, 3, 2)
+plt.imshow(np.array(Image.open(image_files2[0])), vmin=0, vmax=255)
 plt.title(image_files2[0])
-plt.subplot(1, 3, 3);
-plt.imshow(np.array(Image.open(image_files2[1])), vmin=0, vmax=255);
+plt.subplot(1, 3, 3)
+plt.imshow(np.array(Image.open(image_files2[1])), vmin=0, vmax=255)
 plt.title(image_files2[1])
 plt.show()
 
@@ -103,8 +103,8 @@ print('distance functions:', distance_types)
 hist_types = ['grayvalue', 'rgb', 'rg', 'dxdy']
 print('histogram types:', hist_types)
 
-num_bins_color = 30;
-num_bins_gray = 90;
+num_bins_color = 30
+num_bins_gray = 90
 
 for img1_file in image_files1:
     img1_color = np.array(Image.open(img1_file))
@@ -182,7 +182,7 @@ with open('query.txt') as fp:
     query_images = fp.readlines()
 query_images = [x.strip() for x in query_images]
 
-num_bins = 20;
+num_bins = 20
 
 plt.figure(8)
 rpc_module.compare_dist_rpc(model_images, query_images, ['chi2', 'intersect', 'l2'], 'rg', num_bins, ['r', 'g', 'b'])
