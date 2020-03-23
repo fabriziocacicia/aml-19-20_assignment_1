@@ -37,24 +37,26 @@ def get_image_from_path(image_path: str) -> np.ndarray:
 #       handles to distance and histogram functions, and to find out whether histogram function 
 #       expects grayvalue or color image
 
-def find_best_match(model_images, query_images, dist_type, hist_type, num_bins):
+def find_best_match(model_images, query_images, dist_type: str, hist_type, num_bins: int):
+    hist_is_gray = histogram_module.is_grayvalue_hist(hist_type)
 
-    hist_isgray = histogram_module.is_grayvalue_hist(hist_type)
-    
-    model_hists = compute_histograms(model_images, hist_type, hist_isgray, num_bins)
-    query_hists = compute_histograms(query_images, hist_type, hist_isgray, num_bins)
-    
-    D = np.zeros((len(model_images), len(query_images)))
-    
-    
-    #... (your code here)
+    model_hists = compute_histograms(model_images, hist_type, hist_is_gray, num_bins)
+    query_hists = compute_histograms(query_images, hist_type, hist_is_gray, num_bins)
 
+    best_matches = -np.ones(len(query_images))
+    distances_matrix = np.zeros((len(model_images), len(query_images)))
 
-    return best_match, D
+    for query_hist_index, query_hist in enumerate(query_hists):
+        min_dist = np.inf
 
+        for model_hist_index, model_hist in enumerate(model_hists):
+            curr_dist = dist_module.get_dist_by_name(query_hist, model_hist, dist_type)
 
+            if curr_dist < min_dist:
+                min_dist = curr_dist
+                best_matches[query_hist_index] = model_hist_index
 
-            distances_matrix[query_image_index, model_image_index] = curr_dist
+            distances_matrix[query_hist_index, model_hist_index] = curr_dist
 
     return best_matches, distances_matrix
 
