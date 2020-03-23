@@ -52,8 +52,15 @@ def compute_histograms(images_paths_list: List[str], hist_type: str, hist_isgray
     images_hists = []
 
     # Compute histogram for each image and add it at the bottom of image_hist
-    for i, image in enumerate(image_list):
-        images_hists[i] = histogram_module.get_hist_by_name(image, num_bins, hist_type)
+    for img_path in images_paths_list:
+        img: np.ndarray = get_image_from_path(img_path)
+
+        if hist_isgray:
+            img = rgb2gray(img)
+
+        hist = histogram_module.get_hist_by_name(img, num_bins, hist_type)
+
+        images_hists.append(hist)
 
     return images_hists
 
