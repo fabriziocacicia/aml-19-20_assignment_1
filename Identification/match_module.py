@@ -15,6 +15,17 @@ def rgb2gray(rgb):
     return gray
 
 
+def get_image_from_path(image_path: str) -> np.ndarray:
+    """
+    Return an image given its path
+    :param image_path: The path of the image
+    :return: The image
+    """
+    image = np.array(Image.open(image_path))
+    image = image.astype('double')
+
+    return image
+
 
 # model_images - list of file names of model images
 # query_images - list of file names of query images
