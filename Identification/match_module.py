@@ -56,7 +56,7 @@ def find_best_match(model_images, query_images, dist_type: str, hist_type, num_b
                 min_dist = curr_dist
                 best_matches[query_hist_index] = model_hist_index
 
-            distances_matrix[query_hist_index, model_hist_index] = curr_dist
+            distances_matrix[model_hist_index, query_hist_index] = curr_dist
 
     return best_matches, distances_matrix
 
