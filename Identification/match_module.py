@@ -59,14 +59,14 @@ def find_best_match(model_images, query_images, dist_type, hist_type, num_bins):
     return best_matches, distances_matrix
 
 
-def compute_histograms(images_paths_list: List[str], hist_type: str, hist_isgray: bool, num_bins: int):
+def compute_histograms(images_paths_list: List[str], hist_type: str, hist_is_gray: bool, num_bins: int):
     images_hists = []
 
     # Compute histogram for each image and add it at the bottom of image_hist
     for img_path in images_paths_list:
         img: np.ndarray = get_image_from_path(img_path)
 
-        if hist_isgray:
+        if hist_is_gray:
             img = rgb2gray(img)
 
         hist = histogram_module.get_hist_by_name(img, num_bins, hist_type)
