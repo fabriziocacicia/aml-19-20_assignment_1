@@ -88,21 +88,29 @@ def show_neighbors(model_images: List[str], query_images: List[str], dist_type: 
 
     num_nearest = 5  # show the top-5 neighbors
 
-    def add_image_to_figure(image_path: str):
+    def add_query_image_to_figure(image_path: str, index: int):
         axes = figure.add_subplot(subplot_n_rows, subplot_n_cols, subplot_index)
         axes.set_axis_off()
-        axes.set_title(os.path.basename(image_path))
+        axes.set_title('Q'+str(index))
         axes.imshow(np.array(Image.open(image_path)))
 
-    def get_top_neighbors_indexes(query_image_index: int):
+    def add_model_image_to_figure(image_path: str, distance: float):
+        axes = figure.add_subplot(subplot_n_rows, subplot_n_cols, subplot_index)
+        axes.set_axis_off()
+        distance = np.around(distance, decimals=2)
+        axes.set_title('M'+str(distance))
+        axes.imshow(np.array(Image.open(image_path)))
+
+    def get_top_neighbors(query_image_index: int):
         distances = distance_matrix[:, query_image_index]
         unsorted_top_neighbors_indexes = np.argpartition(distances, num_nearest)[:num_nearest]
         unsorted_top_neighbors_distances = distances[unsorted_top_neighbors_indexes]
 
-        sorted_top_neighbors_distances = np.argsort(unsorted_top_neighbors_distances)
-        sorted_top_neighbors_indexes = unsorted_top_neighbors_indexes[sorted_top_neighbors_distances]
+        sorted_args = np.argsort(unsorted_top_neighbors_distances)
+        sorted_top_neighbors_indexes = unsorted_top_neighbors_indexes[sorted_args]
+        sorted_top_neighbors_distances = unsorted_top_neighbors_distances[sorted_args]
 
-        return sorted_top_neighbors_indexes
+        return sorted_top_neighbors_indexes, sorted_top_neighbors_distances
 
     # Prepare Plots
     figure = plt.figure(figsize=(10, 10))
@@ -114,14 +122,14 @@ def show_neighbors(model_images: List[str], query_images: List[str], dist_type: 
     _, distance_matrix = find_best_match(model_images, query_images, dist_type, hist_type, num_bins)
 
     for query_image_path_index, query_image_path in enumerate(query_images):
-        add_image_to_figure(query_image_path)
+        add_query_image_to_figure(query_image_path, query_image_path_index)
         subplot_index += 1
 
-        top_neighbors_indexes = get_top_neighbors_indexes(query_image_path_index)
+        top_neighbors_indexes, top_neighbor_distances = get_top_neighbors(query_image_path_index)
 
-        for top_neighbor_index in top_neighbors_indexes:
-            model_image_path = model_images[top_neighbor_index]
-            add_image_to_figure(model_image_path)
+        for neighbor_index, neighbor_distance in zip(top_neighbors_indexes, top_neighbor_distances):
+            model_image_path = model_images[neighbor_index]
+            add_model_image_to_figure(model_image_path, neighbor_distance)
             subplot_index += 1
 
     plt.show()
