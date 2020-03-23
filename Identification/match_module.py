@@ -49,7 +49,7 @@ def find_best_match(model_images, query_images, dist_type, hist_type, num_bins):
 def compute_histograms(image_list, hist_type: str, hist_isgray: bool, num_bins: int):
     images_hists = []
 
-    # Compute hisgoram for each image and add it at the bottom of image_hist
+    # Compute histogram for each image and add it at the bottom of image_hist
     for i, image in enumerate(image_list):
         images_hists[i] = histogram_module.get_hist_by_name(image, num_bins, hist_type)
 
