@@ -1,3 +1,5 @@
+from typing import List
+
 import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
@@ -46,7 +48,7 @@ def find_best_match(model_images, query_images, dist_type, hist_type, num_bins):
     return best_matches, distances_matrix
 
 
-def compute_histograms(image_list: List[str], hist_type: str, hist_isgray: bool, num_bins: int):
+def compute_histograms(images_paths_list: List[str], hist_type: str, hist_isgray: bool, num_bins: int):
     images_hists = []
 
     # Compute histogram for each image and add it at the bottom of image_hist
