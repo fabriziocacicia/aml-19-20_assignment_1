@@ -1,3 +1,4 @@
+import os
 from typing import List
 
 import numpy as np
@@ -83,12 +84,44 @@ def compute_histograms(images_paths_list: List[str], hist_type: str, hist_is_gra
 # Note: use the previously implemented function 'find_best_match'
 # Note: use subplot command to show all the images in the same Python figure, one row per query image
 
-def show_neighbors(model_images, query_images, dist_type, hist_type, num_bins):
-    
-    
-    plt.figure()
+def show_neighbors(model_images: List[str], query_images: List[str], dist_type: str, hist_type: str, num_bins: int):
 
     num_nearest = 5  # show the top-5 neighbors
-    
-    #... (your code here)
 
+    def add_image_to_figure(image_path: str):
+        axes = figure.add_subplot(subplot_n_rows, subplot_n_cols, subplot_index)
+        axes.set_axis_off()
+        axes.set_title(os.path.basename(image_path))
+        axes.imshow(np.array(Image.open(image_path)))
+
+    def get_top_neighbors_indexes(query_image_index: int):
+        distances = distance_matrix[:, query_image_index]
+        unsorted_top_neighbors_indexes = np.argpartition(distances, num_nearest)[:num_nearest]
+        unsorted_top_neighbors_distances = distances[unsorted_top_neighbors_indexes]
+
+        sorted_top_neighbors_distances = np.argsort(unsorted_top_neighbors_distances)
+        sorted_top_neighbors_indexes = unsorted_top_neighbors_indexes[sorted_top_neighbors_distances]
+
+        return sorted_top_neighbors_indexes
+
+    # Prepare Plots
+    figure = plt.figure(figsize=(10, 10))
+    subplot_n_rows = len(query_images)
+    subplot_n_cols = num_nearest + 1
+    subplot_index = 1
+
+    # Compute images distances
+    _, distance_matrix = find_best_match(model_images, query_images, dist_type, hist_type, num_bins)
+
+    for query_image_path_index, query_image_path in enumerate(query_images):
+        add_image_to_figure(query_image_path)
+        subplot_index += 1
+
+        top_neighbors_indexes = get_top_neighbors_indexes(query_image_path_index)
+
+        for top_neighbor_index in top_neighbors_indexes:
+            model_image_path = model_images[top_neighbor_index]
+            add_image_to_figure(model_image_path)
+            subplot_index += 1
+
+    plt.show()
