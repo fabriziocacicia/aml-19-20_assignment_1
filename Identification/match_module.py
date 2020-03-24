@@ -74,6 +74,10 @@ def compute_histograms(images_paths_list: List[str], hist_type: str, hist_is_gra
 
         hist = histogram_module.get_hist_by_name(img, num_bins, hist_type)
 
+        # Handles the case in which the histogram function returns also the bins
+        if len(hist) == 2:
+            hist = hist[0]
+
         images_hists.append(hist)
 
     return images_hists
