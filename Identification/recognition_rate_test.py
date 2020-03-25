@@ -61,10 +61,6 @@ def main():
     hists_types: List[str] = args.hists
     list_num_bins: List[int] = args.bins
 
-    num_correct_matches: int = 0
-    best_recognition_rate: float = -1.0
-    best_combination = ['Nan', 'Nan', -1]
-
     model_images_paths: List[str] = get_model_images_paths()
     query_images_paths: List[str] = get_query_images_paths()
 
