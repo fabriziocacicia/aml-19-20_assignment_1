@@ -1,7 +1,4 @@
-# import packages: numpy, math (you might need pi for gaussian functions)
 import numpy as np
-import math
-import matplotlib.pyplot as plt
 from scipy.signal import convolve2d as conv2
 
 
