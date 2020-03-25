@@ -1,6 +1,4 @@
 import os
-from typing import List
-
 import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
@@ -16,7 +14,7 @@ def rgb2gray(rgb):
     return gray
 
 
-def get_image_from_path(image_path: str) -> np.ndarray:
+def get_image_from_path(image_path):
     """
     Return an image given its path
     :param image_path: The path of the image
@@ -38,7 +36,7 @@ def get_image_from_path(image_path: str) -> np.ndarray:
 #       handles to distance and histogram functions, and to find out whether histogram function 
 #       expects grayvalue or color image
 
-def find_best_match(model_images, query_images, dist_type: str, hist_type, num_bins: int):
+def find_best_match(model_images, query_images, dist_type, hist_type, num_bins):
     hist_is_gray = histogram_module.is_grayvalue_hist(hist_type)
 
     model_hists = compute_histograms(model_images, hist_type, hist_is_gray, num_bins)
@@ -62,12 +60,12 @@ def find_best_match(model_images, query_images, dist_type: str, hist_type, num_b
     return best_matches, distances_matrix
 
 
-def compute_histograms(images_paths_list: List[str], hist_type: str, hist_is_gray: bool, num_bins: int):
+def compute_histograms(images_paths_list, hist_type, hist_is_gray, num_bins):
     images_hists = []
 
     # Compute histogram for each image and add it at the bottom of image_hist
     for img_path in images_paths_list:
-        img: np.ndarray = get_image_from_path(img_path)
+        img = get_image_from_path(img_path)
 
         if hist_is_gray:
             img = rgb2gray(img)
@@ -88,24 +86,24 @@ def compute_histograms(images_paths_list: List[str], hist_type: str, hist_is_gra
 # Note: use the previously implemented function 'find_best_match'
 # Note: use subplot command to show all the images in the same Python figure, one row per query image
 
-def show_neighbors(model_images: List[str], query_images: List[str], dist_type: str, hist_type: str, num_bins: int):
+def show_neighbors(model_images, query_images, dist_type, hist_type, num_bins):
 
     num_nearest = 5  # show the top-5 neighbors
 
-    def add_query_image_to_figure(image_path: str, index: int):
+    def add_query_image_to_figure(image_path, index):
         axes = figure.add_subplot(subplot_n_rows, subplot_n_cols, subplot_index)
         axes.set_axis_off()
         axes.set_title('Q'+str(index))
         axes.imshow(np.array(Image.open(image_path)))
 
-    def add_model_image_to_figure(image_path: str, distance: float):
+    def add_model_image_to_figure(image_path, distance):
         axes = figure.add_subplot(subplot_n_rows, subplot_n_cols, subplot_index)
         axes.set_axis_off()
         distance = np.around(distance, decimals=2)
         axes.set_title('M'+str(distance))
         axes.imshow(np.array(Image.open(image_path)))
 
-    def get_top_neighbors(query_image_index: int):
+    def get_top_neighbors(query_image_index):
         distances = distance_matrix[:, query_image_index]
         unsorted_top_neighbors_indexes = np.argpartition(distances, num_nearest)[:num_nearest]
         unsorted_top_neighbors_distances = distances[unsorted_top_neighbors_indexes]

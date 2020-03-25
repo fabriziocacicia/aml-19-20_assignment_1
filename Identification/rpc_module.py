@@ -1,5 +1,3 @@
-from typing import List
-
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -15,9 +13,9 @@ import match_module
 # note: assume that query and model images are in the same order, i.e. correct answer for i-th query image is the i-th model image
 
 
-def plot_rpc(distance_matrix, plot_color: str):
-    recalls: List[float] = []
-    precisions: List[float] = []
+def plot_rpc(distance_matrix, plot_color):
+    recalls = []
+    precisions = []
 
     num_model_images = distance_matrix.shape[0]
     num_queries_images = distance_matrix.shape[1]
@@ -52,8 +50,7 @@ def plot_rpc(distance_matrix, plot_color: str):
     plt.plot([1 - precisions[i] for i in range(len(precisions))], recalls, plot_color + '-')
 
 
-def compare_dist_rpc(model_images: List[str], query_images: List[str], dist_types: List[str], hist_type: str,
-                     num_bins: int, plot_colors: List[str]):
+def compare_dist_rpc(model_images, query_images, dist_types, hist_type, num_bins, plot_colors):
     assert len(plot_colors) == len(dist_types), 'number of distance types should match the requested plot colors'
 
     for idx in range(len(dist_types)):
