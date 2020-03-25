@@ -6,8 +6,7 @@ from numpy import histogram as hist  # call hist, otherwise np.histogram
 import histogram_module
 import dist_module
 import match_module
-
-# import rpc_module
+import rpc_module
 
 
 def rgb2gray(rgb):
