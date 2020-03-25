@@ -1,5 +1,4 @@
 import numpy as np
-import math
 
 
 # Compute the intersection distance between histograms x and y
@@ -11,7 +10,7 @@ def dist_intersect(x, y):
 
     sum_of_mins = np.sum(np.minimum(x, y))
 
-    hist_intersection = 0.5*(sum_of_mins/np.sum(x) + sum_of_mins/np.sum(y))
+    hist_intersection = 0.5 * (sum_of_mins / np.sum(x) + sum_of_mins / np.sum(y))
 
     distance = 1 - hist_intersection
 
@@ -39,12 +38,12 @@ def dist_l2(x, y):
 
 def dist_chi2(x, y):
     assert len(x) == len(y), "Histogram sizes mismatch"
-    x_ = x+1
-    y_ = y+1
+    x_ = x + 1
+    y_ = y + 1
 
     diff = np.subtract(x_, y_)
 
-    sq_diff = diff**2
+    sq_diff = diff ** 2
 
     distance = np.sum(np.divide(sq_diff, np.add(x_, y_)))
 

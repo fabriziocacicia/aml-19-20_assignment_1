@@ -5,11 +5,8 @@ from numpy import histogram as hist  # call hist, otherwise np.histogram
 
 import histogram_module
 import dist_module
-
-
-#import match_module
-
-# import rpc_module
+import match_module
+import rpc_module
 
 
 def rgb2gray(rgb):
@@ -160,9 +157,9 @@ with open('query.txt') as fp:
     query_images = fp.readlines()
 query_images = [x.strip() for x in query_images]
 
-dist_type = 'intersect';
-hist_type = 'rg';
-num_bins = 30;
+dist_type = 'intersect'
+hist_type = 'rg'
+num_bins = 30
 
 [best_match, D] = match_module.find_best_match(model_images, query_images, dist_type, hist_type, num_bins)
 
