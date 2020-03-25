@@ -1,8 +1,6 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
-import histogram_module
-import dist_module
 import match_module
 
 

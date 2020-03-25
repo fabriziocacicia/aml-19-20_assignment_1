@@ -1,9 +1,9 @@
+import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
-import matplotlib.pyplot as plt
 
-import histogram_module
 import dist_module
+import histogram_module
 
 
 def rgb2gray(rgb):
@@ -86,20 +86,19 @@ def compute_histograms(images_paths_list, hist_type, hist_is_gray, num_bins):
 # Note: use subplot command to show all the images in the same Python figure, one row per query image
 
 def show_neighbors(model_images, query_images, dist_type, hist_type, num_bins):
-
     num_nearest = 5  # show the top-5 neighbors
 
     def add_query_image_to_figure(image_path, index):
         axes = figure.add_subplot(subplot_n_rows, subplot_n_cols, subplot_index)
         axes.set_axis_off()
-        axes.set_title('Q'+str(index))
+        axes.set_title('Q' + str(index))
         axes.imshow(np.array(Image.open(image_path)))
 
     def add_model_image_to_figure(image_path, distance):
         axes = figure.add_subplot(subplot_n_rows, subplot_n_cols, subplot_index)
         axes.set_axis_off()
         distance = np.around(distance, decimals=2)
-        axes.set_title('M'+str(distance))
+        axes.set_title('M' + str(distance))
         axes.imshow(np.array(Image.open(image_path)))
 
     def get_top_neighbors(query_image_index):

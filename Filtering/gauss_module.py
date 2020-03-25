@@ -19,7 +19,7 @@ def gauss(sigma):
     exp = np.exp(-x_sq / (2 * sigma_sq))
 
     gx = (1 / (np.sqrt(2 * np.pi) * sigma)) * exp
-    
+
     return gx, x
 
 
@@ -32,7 +32,7 @@ def gaussianfilter(img, sigma):
     :param img:
     :return: smooth_img: the smoothed image
     """
-    #...
+    # ...
     gx, x = gauss(sigma)
 
     horizontal_kernel = np.reshape(gx, (1, x.size))
@@ -59,13 +59,12 @@ def gaussdx(sigma):
     gx, x = gauss(sigma)
 
     sigma_sq = np.square(sigma)
-    dx = -gx*x/sigma_sq
+    dx = -gx * x / sigma_sq
 
     return dx, x
 
 
 def gaussderiv(img, sigma):
-
     dx, x = gaussdx(sigma)
 
     horizontal_kernel = dx.reshape((1, -1))
@@ -75,4 +74,3 @@ def gaussderiv(img, sigma):
     img_dy = conv2(img, vertical_kernel, mode='same')
 
     return img_dx, img_dy
-
