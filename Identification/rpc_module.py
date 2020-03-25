@@ -56,9 +56,6 @@ def compare_dist_rpc(model_images, query_images, dist_types, hist_type, num_bins
         plot_rpc(D, plot_colors[idx])
     
 
-    plt.axis([0, 1, 0, 1]);
-    plt.xlabel('1 - precision');
-    plt.ylabel('recall');
     
     # legend(dist_types, 'Location', 'Best')
     
